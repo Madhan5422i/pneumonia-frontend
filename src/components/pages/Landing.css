@@ -1,0 +1,10 @@
+.main-section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 97vh;
+    flex-direction: column;
+}
+.text-container{
+    text-align: center;
+}
