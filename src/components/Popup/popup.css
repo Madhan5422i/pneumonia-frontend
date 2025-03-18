@@ -1,0 +1,130 @@
+.popup-i {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content-i {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  padding: 25px;
+  width: 85%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.popup-content-i h1 {
+  color: #2b5d83;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+.popup-body {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  align-items: center;
+}
+
+.ai-image {
+  flex: 1;
+  min-width: 0;
+}
+
+.ai-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); */
+}
+
+.right {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.right p {
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.right ul {
+  margin-left: 20px;
+  padding-left: 0;
+  text-align: left;
+}
+
+.right li {
+  margin-bottom: 10px;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* Responsive styling for tablets */
+@media screen and (max-width: 768px) {
+  .popup-content-i {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .popup-body {
+    flex-direction: column;
+  }
+
+  .ai-image {
+    margin-bottom: 15px;
+    width: 80%;
+  }
+
+  .right {
+    width: 100%;
+  }
+}
+
+/* Responsive styling for mobile phones */
+@media screen and (max-width: 480px) {
+  .popup-content-i {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .popup-content-i h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .ai-image {
+    width: 100%;
+  }
+}
+.understand {
+  width: 150px;
+  height: 40px;
+  float: right;
+  margin-right: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  background-color: #2a90de;
+  border-radius: 10px;
+  color: white;
+}
+.understand:hover {
+  background-color: #2b5d83;
+}

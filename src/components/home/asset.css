@@ -1,9 +1,10 @@
 .popup-container {
-  width: 700px;
-  height: 400px;
+  width: 60vw;
+  height: 50vh;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
+  flex-direction: column;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -13,6 +14,15 @@
   z-index: 998;
   transition: filter 0.3s ease;
   gap: 20px;
+  border-radius: 20px;
+  padding: 30px 30px;
+}
+.images-container {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: center;
 }
 
 .popup-container.blur {
@@ -21,8 +31,8 @@
 .close-icon {
   cursor: pointer;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 13px;
+  right: 15px;
 }
 .backdrop {
   width: 100vw;
@@ -34,9 +44,9 @@
   backdrop-filter: blur(5px);
 }
 .uploaded-image {
-  width: 300px;
+  width: 100%;
   height: 300px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 10px;
 }
 .drag-active {
@@ -45,6 +55,11 @@
 
 input[type="file"] {
   display: none;
+}
+.file-name {
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .selected-file {
@@ -58,7 +73,7 @@ input[type="file"] {
   justify-content: center;
 }
 .button {
-  padding: 10px 20px;
+  padding: 15px 20px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -66,6 +81,10 @@ input[type="file"] {
   font-size: 14px;
   font-weight: 400;
   font-family: sans-serif;
+  border-radius: 10px;
+}
+.button:hover {
+  background-color: #0056b3;
 }
 label {
   font-family: sans-serif;
@@ -75,6 +94,8 @@ label {
 }
 .popup-content {
   text-align: center;
+  align-items: center;
+  width: 60%;
 }
 .spinner {
   position: absolute;
@@ -93,12 +114,52 @@ label {
   backdrop-filter: blur(4px);
   z-index: 999;
 }
-.result-content{
-  width: 280px;
+.result-content {
+  width: 40%;
   height: 290px;
   background-color: #112943;
   border-radius: 10px;
   color: tomato;
   padding-left: 20px;
   padding-top: 10px;
+  align-items: center;
+}
+code {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progress-container {
+  width: 90%;
+  background-color: #1e3a57;
+  border-radius: 10px;
+  padding: 4px;
+  margin-top: 15px;
+}
+
+.progress-bar {
+  height: 25px;
+  border-radius: 8px;
+  background: linear-gradient(to right, #4caf50, #ffeb3b, #f44336);
+  transition: width 0.5s ease-in-out;
+  position: relative;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #000;
+  font-weight: bold;
+  text-shadow: 0px 0px 2px #fff;
+}
+
+.result-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #fff;
 }

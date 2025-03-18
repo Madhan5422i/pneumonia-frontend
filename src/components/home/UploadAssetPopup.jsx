@@ -8,7 +8,11 @@ import { useEffect } from "react";
 import Spinner from "../Spinner";
 import { Toast } from "./../Toast";
 
-export const UploadAssestPopup = ({ openPopup = false, setOpenPopup }) => {
+export const UploadAssetPopup = ({
+  info = false,
+  openPopup = false,
+  setOpenPopup,
+}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(UploadIcon);
   const [fileName, setFileName] = useState("");
@@ -17,6 +21,7 @@ export const UploadAssestPopup = ({ openPopup = false, setOpenPopup }) => {
   const [result, setResult] = useState(null);
   const [openToast, setOpenToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
+  const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
     let timeoutId;
@@ -49,6 +54,18 @@ export const UploadAssestPopup = ({ openPopup = false, setOpenPopup }) => {
     return false;
   };
 
+  const formatPercentage = (probability) => {
+    // Convert to percentage and round to 2 decimal places
+    let percentage = parseFloat(probability) * 100;
+
+    // Cap at 99% if it's very close to 100%
+    if (percentage > 99 && percentage < 100) {
+      percentage = 99;
+    }
+
+    return percentage.toFixed(2);
+  };
+
   const getPrediction = async () => {
     setLoading(true);
     setOpenToast(false);
@@ -66,11 +83,13 @@ export const UploadAssestPopup = ({ openPopup = false, setOpenPopup }) => {
       const data = await response.json();
       if (data && data.success) {
         setResult(data);
+        console.log(data);
+        const percentage = formatPercentage(data.probability);
+        setPercentage(percentage);
       } else if (data.error) {
         setToastMsg(data.error);
         setOpenToast(true);
       }
-      console.log(data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -133,7 +152,7 @@ export const UploadAssestPopup = ({ openPopup = false, setOpenPopup }) => {
 
   return (
     <div>
-      {openPopup ? (
+      {openPopup && !info ? (
         <div className={`backdrop ${isLoading ? "backdrop-active" : ""}`}>
           <div
             className={`popup-container ${isDragActive ? "drag-active" : ""} ${
@@ -152,61 +171,75 @@ export const UploadAssestPopup = ({ openPopup = false, setOpenPopup }) => {
             >
               <IoCloseSharp />
             </div>
-            <div className="popup-content">
-              <img
-                style={
-                  selectedFile && selectedFile.name
-                    ? { boxShadow: " 0 0 10px rgba(0, 0, 0, 0.1)" }
-                    : {}
-                }
-                className="uploaded-image"
-                src={preview}
-                alt="Upload Icon"
-              />
-              <p>
-                {fileName
-                  ? fileName
-                  : "Please upload, drag and drop or paste an x-ray image"}
-              </p>
-              <div className="button-container">
-                <div>
-                  {selectedFile && selectedFile.name && (
-                    <div>
-                      <button
-                        className="button"
-                        onClick={() => {
-                          getPrediction();
-                        }}
+            <div className="images-container">
+              <div className="popup-content">
+                <img
+                  style={
+                    selectedFile && selectedFile.name
+                      ? { boxShadow: " 0 0 10px rgba(0, 0, 0, 0.1)" }
+                      : {}
+                  }
+                  className="uploaded-image"
+                  src={preview}
+                  alt="Upload Icon"
+                />
+                <p className="file-name">
+                  {fileName
+                    ? fileName
+                    : "Please upload, drag and drop or paste an x-ray image"}
+                </p>
+              </div>
+              {result && result.label && result.probability && (
+                <div className="result-content">
+                  <code>
+                    <h3 style={{ textAlign: "center" }}>Analysis</h3>
+
+                    <p>Label : {result.label}</p>
+                    <p>Model Confidence : {percentage}%</p>
+                    <div className="progress-container">
+                      <div
+                        className="progress-bar"
+                        style={{ width: `${percentage}%` }}
                       >
-                        Get prediction
-                      </button>
+                        <span className="progress-text">{percentage}%</span>
+                      </div>
                     </div>
-                  )}
+                    {/* <pre>{JSON.stringify(result, null, 2)}</pre> */}
+                  </code>
                 </div>
-                <div className="button">
-                  <label htmlFor="file-upload">
-                    {" "}
-                    {selectedFile && selectedFile.name
-                      ? "Change Image"
-                      : "Choose X-ray Image"}
-                  </label>
-                  <input
-                    className="button"
-                    id="file-upload"
-                    accept=".png,.jpg,.jpeg"
-                    type="file"
-                    onChange={handleFileChange}
-                  />
-                </div>
+              )}
+            </div>
+            <div className="button-container">
+              <div>
+                {selectedFile && selectedFile.name && (
+                  <div>
+                    <button
+                      className="button"
+                      onClick={() => {
+                        getPrediction();
+                      }}
+                    >
+                      Get prediction
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="button">
+                <label htmlFor="file-upload">
+                  {" "}
+                  {selectedFile && selectedFile.name
+                    ? "Change Image"
+                    : "Choose X-ray Image"}
+                </label>
+                <input
+                  className="button"
+                  id="file-upload"
+                  accept=".png,.jpg,.jpeg"
+                  type="file"
+                  onChange={handleFileChange}
+                />
               </div>
             </div>
-            {result && (
-              <div className="result-content">
-                <code>
-                  <pre>{JSON.stringify(result, null, 2)}</pre>
-                </code>
-              </div>
-            )}
           </div>
           <div className="spinner">
             <Spinner loading={isLoading} color="#3498db" />
