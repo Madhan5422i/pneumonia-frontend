@@ -15,7 +15,7 @@
   transition: filter 0.3s ease;
   gap: 20px;
   border-radius: 20px;
-  padding: 30px 30px;
+  padding: 40px 45px 40px 30px;
 }
 .images-container {
   display: flex;
