@@ -69,7 +69,7 @@ export const UploadAssetPopup = ({
   const getPrediction = async () => {
     setLoading(true);
     setOpenToast(false);
-    const url = "http://localhost:5000/predict";
+    const url = "/predict";
     const formData = new FormData();
     formData.append("image", selectedFile);
 
