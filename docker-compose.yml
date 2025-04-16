@@ -1,0 +1,36 @@
+# docker-compose.yml
+version: "3.8"
+name: pneumonia-detection
+
+services:
+  frontend:
+    build: . # Build the frontend image using the Dockerfile in the current directory
+    container_name: pneumonia-frontend # Optional: give the container a specific name
+    ports:
+      - "8080:80" # Map host port 8080 to container port 80 (where Nginx listens)
+    depends_on:
+      - backend # Ensure backend starts before frontend (optional but good practice)
+    networks:
+      - app-network
+
+  backend:
+    # IMPORTANT: Adjust this based on your actual backend setup
+    build: ./pnuemonia-backend # Assumes backend Dockerfile is in a sibling 'backend' directory
+    container_name: pneumonia-backend # Optional: give the container a specific name
+    # If you need to access the backend directly from your host machine, uncomment the ports section:
+    # ports:
+    #   - "5000:5000"
+    # Expose port 5000 internally for other services in the network
+    expose:
+      - "5000"
+    # Add any necessary environment variables or volumes for your backend here
+    # environment:
+    #   - DATABASE_URL=...
+    # volumes:
+    #   - ../backend/data:/app/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
